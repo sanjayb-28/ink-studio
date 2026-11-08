@@ -1,0 +1,23 @@
+[
+  {
+    "name": "demo-street",
+    "title": "A street in Shinjuku",
+    "credit": "Nacaru / Wikimedia Commons",
+    "source": "https://commons.wikimedia.org/wiki/File:Street_in_Shinjuku.jpg",
+    "license": "CC BY-SA 4.0"
+  },
+  {
+    "name": "demo-portrait",
+    "title": "A portrait in daylight",
+    "credit": "NASA / scikit-image sample",
+    "source": "https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.astronaut",
+    "license": "Public domain"
+  },
+  {
+    "name": "demo-still-life",
+    "title": "Light on a coffee cup",
+    "credit": "Rachel Michetti / scikit-image sample",
+    "source": "https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.coffee",
+    "license": "CC0"
+  }
+]

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+library/
+artifacts/
+.venv*/
+.image-lab/
+.env*
+!.env.example
+.vercel/
+.DS_Store
+__pycache__/
+*.pyc

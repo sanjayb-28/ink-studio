@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "name": "@sanjayb-28/ink-engine",
+  "description": "Ink animation runtime, component studio and offline artwork compiler.",
+  "files": [
+    "library",
+    "README.md",
+    "NOTICE.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./library/engine.d.ts",
+      "import": "./library/index.js"
+    },
+    "./materials": {
+      "types": "./library/materials-entry.d.ts",
+      "import": "./library/materials.js"
+    },
+    "./undertow": {
+      "types": "./library/undertow.d.ts",
+      "import": "./library/undertow.js"
+    },
+    "./theme.css": "./library/theme.css"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4319 --strictPort",
+    "check": "tsc --noEmit",
+    "build:library": "vite build --config vite.library.config.ts && tsc -p tsconfig.library.json",
+    "build:studio": "vite build",
+    "build": "npm run check && npm run build:library && npm run build:studio",
+    "preview": "vite preview --host 127.0.0.1 --port 4320 --strictPort",
+    "test": "node --disable-warning=ExperimentalWarning --experimental-strip-types tests/runtime.mjs && node --disable-warning=ExperimentalWarning --experimental-strip-types tests/frame-pacer-contract.mjs && node --disable-warning=ExperimentalWarning --experimental-strip-types tests/ink-nib-contract.mjs && node --disable-warning=ExperimentalWarning --experimental-strip-types tests/undertow-contract.mjs && node --disable-warning=ExperimentalWarning --experimental-strip-types tests/ink-lens-contract.mjs",
+    "images:setup": "node scripts/setup-images.mjs",
+    "prepare:images": "node scripts/prepare-images.mjs",
+    "prepare:studies": ".venv-image-lab/bin/python scripts/prepare_studies.py",
+    "test:images": ".venv-image-lab/bin/python tests/image-lab-contract.py",
+    "compile:portfolio": "node scripts/compile-portfolio.mjs",
+    "pack:runtime": "npm run build:library && node scripts/pack-runtime.mjs"
+  },
+  "dependencies": {
+    "lucide": "^1.69.0"
+  },
+  "devDependencies": {
+    "@fontsource/geist": "^5.3.0",
+    "@fontsource/geist-mono": "^5.2.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  },
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanjayb-28/ink-studio.git"
+  }
+}

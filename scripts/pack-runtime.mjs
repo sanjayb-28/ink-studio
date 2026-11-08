@@ -1,0 +1,12 @@
+import {mkdir} from 'node:fs/promises';
+import {spawnSync} from 'node:child_process';
+import {resolve,dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+await mkdir(resolve(root,'artifacts'),{recursive:true});
+const result=spawnSync('npm',['pack','--json','--pack-destination','artifacts'],{cwd:root,encoding:'utf8'});
+if(result.status!==0)throw new Error(result.stderr||'Could not package the runtime.');
+const [archive]=JSON.parse(result.stdout);
+const unexpected=archive.files.filter(file=>!['README.md','NOTICE.md','package.json'].includes(file.path)&&!/^library\/.*\.(js|css|d\.ts)$/.test(file.path));
+if(unexpected.length||archive.size>200000)throw new Error('Runtime archive contains authoring assets or exceeds its size budget. Check the library build configuration.');
+console.log(archive.filename+' · '+Math.round(archive.size/1024)+' KB · '+archive.files.length+' runtime files. No authoring assets included.');

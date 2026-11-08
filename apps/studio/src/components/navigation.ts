@@ -1,0 +1,2 @@
+export const studioNav = (active: string) =>
+  `<header class="is-header"><a class="is-brand" href="/">ink studio<span> / tools for painted interfaces</span></a><nav aria-label="Studio"><a href="/" ${active === 'paint' ? 'aria-current="page"' : ''}>painting</a><a href="/materials/" ${active === 'materials' ? 'aria-current="page"' : ''}>materials</a><a href="/components/" ${active === 'components' ? 'aria-current="page"' : ''}>components</a><a href="/image-lab/" ${active === 'images' ? 'aria-current="page"' : ''}>image lab</a></nav></header>`;

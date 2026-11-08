@@ -1,0 +1,46 @@
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+  animation: fx-wipe 0.56s cubic-bezier(0.62, 0, 0.28, 1) both;
+  mask-size: 300% 100%;
+  mask-repeat: no-repeat;
+}
+::view-transition-old(root) {
+  mask-image: var(--fx-erase);
+}
+::view-transition-new(root) {
+  mask-image: var(--fx-reveal);
+}
+::view-transition-image-pair(root) {
+  background-image: var(--fx-stroke);
+  background-repeat: no-repeat;
+  background-size: 300% 100%;
+  animation: fx-wipe-bg 0.56s cubic-bezier(0.62, 0, 0.28, 1) both;
+}
+@keyframes fx-wipe {
+  from {
+    mask-position: 87.5% 0;
+  }
+  to {
+    mask-position: 0 0;
+  }
+}
+@keyframes fx-wipe-bg {
+  from {
+    background-position: 87.5% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-image-pair(root) {
+    animation-duration: 1ms !important;
+  }
+}

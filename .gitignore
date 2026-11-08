@@ -1,9 +1,8 @@
 node_modules/
-dist/
-library/
+**/dist/
 artifacts/
-.venv*/
-.image-lab/
+.venv/
+.cache/
 .env*
 !.env.example
 .vercel/

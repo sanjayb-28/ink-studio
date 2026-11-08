@@ -1,5 +1,0 @@
-/* Paint follows the native selection; browser copying and keyboard ranges stay intact. */
-html.fx-sel ::selection{color:#f6f5f0;background:transparent}
-html.fx-sel :is(input,textarea)::selection{background:#e5322d;color:#000}
-.fx-sel-layer{position:absolute;top:0;left:0;width:0;height:0;z-index:70;pointer-events:none;mix-blend-mode:screen}
-.fx-sel-layer svg{position:absolute;overflow:visible}

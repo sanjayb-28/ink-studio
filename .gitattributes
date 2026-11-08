@@ -9,6 +9,6 @@
 *.woff binary
 *.woff2 binary
 *.ttf binary
-public/drawings/*.json -diff linguist-generated=true
-public/studies/*.json -diff linguist-generated=true
+**/public/drawings/*.json -diff linguist-generated=true
+**/public/studies/*.json -diff linguist-generated=true
 *.generated.json linguist-generated=true

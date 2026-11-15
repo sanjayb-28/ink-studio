@@ -1,4 +1,4 @@
-"""Offline artwork compiler. Run in .venv; the browser receives baked files."""
+"""Render a treated image and registered contours for browser playback."""
 
 from __future__ import annotations
 import argparse, hashlib, json, math, os, sys, time
@@ -7,12 +7,19 @@ from pathlib import Path
 import cv2
 import numpy as np
 from PIL import Image, ImageOps, ImageCms
-from accents import accent_settings, vermilion
+if __package__:
+    from .accents import accent_settings, vermilion
+else:
+    from accents import accent_settings, vermilion
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-ROOT = Path(os.environ.get("INK_PROJECT_ROOT", CODE_ROOT / "apps/studio")).expanduser().resolve()
+# The installed command writes to the caller's workspace; Studio uses its app directory.
+default_root = Path.cwd() if __package__ else CODE_ROOT / "apps/studio"
+default_cache = (Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "ink-studio"
+                 if __package__ else CODE_ROOT / ".cache/ink-studio")
+ROOT = Path(os.environ.get("INK_PROJECT_ROOT", default_root)).expanduser().resolve()
 PUBLIC = ROOT / "public"
-WORK = Path(os.environ.get("INK_CACHE_DIR", CODE_ROOT / ".cache/ink-studio")).expanduser().resolve()
+WORK = Path(os.environ.get("INK_CACHE_DIR", default_cache)).expanduser().resolve()
 MODELS = WORK / "models"
 VERSION = "pigment-1.3"
 REPAINT_VERSION = "pigment-1.1"
@@ -701,7 +708,7 @@ def batch(methods):
 
 def main():
     global PUBLIC
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=["render", "normalize", "batch"])
     parser.add_argument("--input")
     parser.add_argument(
@@ -728,6 +735,8 @@ def main():
     if args.action != "batch" and not args.input:
         parser.error("--input is required for this action")
     if args.action == "batch":
+        if not (ROOT / "assets/samples/sources.json").is_file():
+            parser.error("batch requires a Studio sample workspace; set INK_PROJECT_ROOT to apps/studio")
         data = batch(args.methods.split(","))
         emit("complete", samples=len(data["samples"]))
     elif args.action == "normalize":
@@ -751,7 +760,7 @@ def main():
         )
 
 
-if __name__ == "__main__":
+def cli():
     try:
         main()
     except Exception as error:
@@ -760,3 +769,7 @@ if __name__ == "__main__":
 
         traceback.print_exc(file=sys.stderr)
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    cli()

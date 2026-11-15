@@ -14,7 +14,7 @@ if (result.status !== 0) throw new Error(result.stderr || 'Could not package the
 const [archive] = JSON.parse(result.stdout);
 const unexpected = archive.files.filter(
   (file) =>
-    !['README.md', 'NOTICE.md', 'package.json'].includes(file.path) &&
+    !['README.md', 'NOTICE.md', 'LICENSE', 'package.json'].includes(file.path) &&
     !/^dist\/.*\.(js|css|d\.ts)$/.test(file.path),
 );
 if (unexpected.length || archive.size > 200000)

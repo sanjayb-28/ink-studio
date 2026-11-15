@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@sanjayb-28/ink-runtime": "1.0.0"
-  }
+    "@sanjayb-28/ink-runtime": "1.0.1"
+  },
+  "license": "MIT"
 }

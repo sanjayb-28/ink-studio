@@ -1,13 +1,13 @@
 {
   "name": "@sanjayb-28/ink-runtime",
-  "version": "1.0.0",
-  "private": true,
+  "version": "1.0.1",
   "type": "module",
   "description": "Canvas ink painting, image reveal and interaction primitives.",
   "files": [
     "dist",
     "README.md",
-    "NOTICE.md"
+    "NOTICE.md",
+    "LICENSE"
   ],
   "sideEffects": [
     "**/*.css"
@@ -33,5 +33,10 @@
   "dependencies": {
     "lucide": "^1.69.0"
   },
-  "license": "UNLICENSED"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanjayb-28/ink-studio.git",
+    "directory": "packages/runtime"
+  }
 }

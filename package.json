@@ -23,7 +23,7 @@
     "compiler:setup": "node scripts/setup-compiler.mjs",
     "image": "node scripts/image.mjs",
     "samples:build": "node scripts/build-samples.mjs",
-    "materials:build": ".venv/bin/python compiler/prepare_materials.py",
+    "materials:build": ".venv/bin/python scripts/prepare-materials.py",
     "pack:runtime": "npm run build:runtime && node scripts/pack-runtime.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -35,7 +35,7 @@
     "typescript": "^7.0.2",
     "vite": "^8.3.5"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/sanjayb-28/ink-studio.git"

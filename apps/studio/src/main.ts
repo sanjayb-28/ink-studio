@@ -30,4 +30,6 @@ if (path === '/components') {
   root.innerHTML =
     '<main class="is-main"><h1>Page not found</h1><a href="/">Open Ink Studio →</a></main>';
 }
-window.addEventListener('pagehide', () => cleanup?.(), { once: true });
+window.addEventListener('pagehide', (event) => {
+  if (!event.persisted) cleanup?.();
+});

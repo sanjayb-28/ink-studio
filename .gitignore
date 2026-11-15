@@ -9,3 +9,6 @@ artifacts/
 .DS_Store
 __pycache__/
 *.pyc
+.ruff_cache/
+*.egg-info/
+compiler/build/

@@ -7,3 +7,7 @@ artifacts/
 apps/studio/public/
 apps/studio/assets/
 package-lock.json
+
+LICENSE
+**/LICENSE
+**/public/licenses/

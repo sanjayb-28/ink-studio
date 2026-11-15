@@ -16,6 +16,6 @@ export default defineConfig({
       fileName: (_, name) => name + '.js',
       cssFileName: 'theme',
     },
-    rollupOptions: { external: ['lucide'] },
+    rolldownOptions: { external: ['lucide'] },
   },
 });

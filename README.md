@@ -1,6 +1,6 @@
 # Ink Studio
 
-A local-first tool for turning photographs into painted artwork and bringing that artwork to life with canvas ink, travelling light and pigment.
+Ink Studio turns a photograph into a painted image and a set of contours you can animate in a browser. The editor, command-line compiler and browser runtime can each be used independently.
 
 ## Run the app
 
@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:4319/. The app contains a painting player, three material treatments, a component workbench and an image lab. Prepared samples work immediately. New conversions use the optional local compiler.
+Open [the local studio](http://127.0.0.1:4319/). The app contains a painting player, three material treatments, a component workbench and an image lab. Prepared samples work immediately. New conversions use the optional local compiler.
 
 ```text
 apps/studio/       Browser app, tool views and licensed samples
@@ -24,7 +24,7 @@ tests/            Runtime, compiler and ownership contracts
 
 ## Convert an image
 
-Install the CPU compiler with Python 3.12 and `uv`:
+For the image lab, install the CPU compiler with Python 3.12 and `uv`. For a terminal-only installation, see the [standalone Python command](compiler/README.md).
 
 ```sh
 npm run compiler:setup
@@ -66,3 +66,11 @@ npm run build
 The static app is built to `dist/studio`; the runtime is built separately to `packages/runtime/dist`. Vercel configuration targets the static app. Prepared demonstrations remain interactive there; converting new inputs requires a local authoring session.
 
 CI verifies formatting, TypeScript, runtime geometry, package boundaries, production builds and isolated CPU image-conversion tests. Sample image credits and adaptation licenses are retained in `NOTICE.md` and the sample manifests.
+
+## Contributing
+
+For a runtime change, run the browser-independent tests and package the runtime. For a compiler change, run the CPU suite on a clean environment and render one of the bundled samples. Pull requests should include the command used to verify the change and, for a visible change, a screenshot or short recording.
+
+## License
+
+Original code and documentation are available under the [MIT license](LICENSE). Sample photographs, fonts, icons and optional model weights have separate terms. Their credits and license links are in [NOTICE.md](NOTICE.md).

@@ -27,7 +27,9 @@ for (const directory of ['packages/runtime/src', 'compiler', 'apps/studio/src'])
 }
 const pkg = JSON.parse(readFileSync('packages/runtime/package.json', 'utf8'));
 assert.equal(pkg.name, '@sanjayb-28/ink-runtime');
-assert.deepEqual(pkg.files, ['dist', 'README.md', 'NOTICE.md']);
+assert.equal(pkg.license, 'MIT');
+assert.ok(pkg.files.includes('dist') && pkg.files.includes('LICENSE'));
+assert.equal(readFileSync('packages/runtime/LICENSE', 'utf8'), readFileSync('LICENSE', 'utf8'));
 assert.ok(pkg.exports['.'].types.endsWith('/index.d.ts'));
 const workspace = JSON.parse(readFileSync('package.json', 'utf8'));
 assert.equal(workspace.name, 'ink-studio');

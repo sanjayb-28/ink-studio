@@ -1,3 +1,4 @@
+import ThreadWorker from './worker?worker&inline';
 import { correspondence, ease, threadPoint, unit, type Field, type Thread, type V } from './field';
 
 export type InkMode = 'complete' | 'threads' | 'pigment';
@@ -118,7 +119,7 @@ export class Undertow {
           c.drawImage(image, 0, 0, w, h);
           const data = c.getImageData(0, 0, w, h).data;
           const field = await new Promise<Field>((resolve, reject) => {
-            const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' });
+            const worker = new ThreadWorker();
             this.workers.add(worker);
             const finish = () => {
               worker.terminate();

@@ -1,6 +1,6 @@
 {
   "name": "@sanjayb-28/ink-runtime",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "Canvas ink painting, image reveal and interaction primitives.",
   "files": [

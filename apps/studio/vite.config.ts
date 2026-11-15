@@ -9,7 +9,7 @@ export default defineConfig({
     alias: [
       {
         find: '@sanjayb-28/ink-runtime/theme.css',
-        replacement: project + 'packages/runtime/src/ui/theme.css',
+        replacement: project + 'packages/runtime/src/theme.css',
       },
       {
         find: '@sanjayb-28/ink-runtime/materials',

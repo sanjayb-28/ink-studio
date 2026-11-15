@@ -1,7 +1,4 @@
-import './interactions/transition.css';
-import './ui/theme.css';
-import './interactions/selection.css';
-import './painting/styles.css';
+import './theme.css';
 export { InkPainting } from './painting/ink-painting';
 export { ImageReveal } from './painting/image-reveal';
 export { FramePacer } from './metrics/frame-pacer';

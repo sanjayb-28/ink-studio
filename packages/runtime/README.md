@@ -5,7 +5,7 @@ Ink Runtime draws prepared images and their contours on a canvas. Install the ru
 From an Ink Studio checkout, run `npm ci` and `npm run pack:runtime`. In the consuming application, install the resulting archive:
 
 ```sh
-npm install /path/to/ink-studio/artifacts/sanjayb-28-ink-runtime-1.0.1.tgz
+npm install /path/to/ink-studio/artifacts/sanjayb-28-ink-runtime-1.0.2.tgz
 ```
 
 Copy a matching JPEG and contour JSON into the application's public directory. The studio includes a ready-to-use pair at `apps/studio/public/paint/demo-street.jpg` and `apps/studio/public/drawings/demo-street.json`.
@@ -29,4 +29,4 @@ const painting = new InkPainting(canvas, ['demo-street'], {
 
 Optional entry points expose material renderers (`/materials`) and image-to-thread animation (`/threads`). All inputs stay in the consuming application; this package contains code, declarations and styles only.
 
-The package ships JavaScript, TypeScript declarations, a worker and theme CSS. It runs entirely in the browser. Original runtime code is available under [MIT](LICENSE).
+The package ships JavaScript, TypeScript declarations, a bundled thread-analysis worker and theme CSS. The optional thread renderer starts its worker from a Blob URL. Applications with a Content Security Policy can permit it with `worker-src blob:`. Original runtime code is available under [MIT](LICENSE).

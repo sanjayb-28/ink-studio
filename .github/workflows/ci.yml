@@ -26,5 +26,5 @@ jobs:
           cache: pip
           cache-dependency-path: compiler/requirements-cpu.txt
       - run: python -m pip install ./compiler
-      - run: ink-image render --input apps/studio/assets/samples/still-life.png --output "$RUNNER_TEMP/ink-export" --long-edge 256 --method wash
+      - run: ink-image render --input apps/studio/assets/samples/still-life.png --output "$RUNNER_TEMP/ink-export" --long-edge 512 --method wash
       - run: python -m unittest discover -s tests/compiler -p 'test_*.py'

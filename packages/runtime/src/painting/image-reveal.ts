@@ -97,15 +97,19 @@ export class ImageReveal {
   private layer: Layer;
   private pace: number;
   private repeat: boolean;
+  private readonly pauseOffscreen: boolean;
+  private suspended = false;
+  private heldAt?: number;
   constructor(
     canvas: HTMLCanvasElement,
     name: string,
     layer: Layer = 'all',
-    options: { pace?: number; repeat?: boolean; contain?: boolean } = {},
+    options: { pace?: number; repeat?: boolean; contain?: boolean; pauseOffscreen?: boolean } = {},
   ) {
     this.layer = layer;
     this.pace = options.pace || 1.8;
     this.repeat = !!options.repeat;
+    this.pauseOffscreen = !!options.pauseOffscreen;
     this.element = document.createElement('div');
     this.element.className = `${canvas.className} ink-image`;
     canvas.replaceWith(this.element);
@@ -138,14 +142,16 @@ export class ImageReveal {
     });
     this.observer = new IntersectionObserver(
       (entries) => {
-        this.visible = entries[0].isIntersecting;
-        if (this.visible && this.loaded && !this.playing && !this.finished) this.replay();
-        else if (!this.visible && this.repeat && !this.playing) {
+        const entry = entries[entries.length - 1];
+        this.visible =
+          entry.isIntersecting && (!this.pauseOffscreen || entry.intersectionRatio >= 0.5);
+        this.syncPlayback();
+        if (!this.visible && this.repeat && !this.playing && !this.paused) {
           this.finished = false;
           this.element.dataset.ink = 'wait';
         }
       },
-      { rootMargin: '0px 0px -8% 0px' },
+      this.pauseOffscreen ? { threshold: [0, 0.5] } : { rootMargin: '0px 0px -8% 0px' },
     );
     this.observer.observe(this.element);
     this.resize = new ResizeObserver(() => {
@@ -173,7 +179,7 @@ export class ImageReveal {
       this.loaded = true;
       this.prepare();
       if (this.paused) this.setPaused(true);
-      else if (this.visible) this.replay();
+      else this.syncPlayback();
     });
   }
   private prepare() {
@@ -246,7 +252,7 @@ export class ImageReveal {
     this.dabs.sort((a, b) => a.at - b.at);
   }
   private tick = (now: number) => {
-    if (this.disposed) return;
+    if (this.disposed || this.heldAt !== undefined) return;
     const time = (now - this.start) / this.pace;
     if (this.layer !== 'brush')
       while (this.markIndex < this.marks.length && this.marks[this.markIndex].at <= time)
@@ -271,8 +277,27 @@ export class ImageReveal {
       if (this.layer === 'all') this.element.dataset.ink = 'alive';
     }
   };
+  // Temporary occlusion preserves the pen position. setPaused(true) requests the finished still.
+  public setSuspended(value: boolean) {
+    if (this.suspended === value) return;
+    this.suspended = value;
+    this.syncPlayback();
+  }
+  private syncPlayback() {
+    if (this.disposed || !this.loaded || this.paused || this.finished) return;
+    if (this.suspended || (this.pauseOffscreen && !this.visible)) {
+      if (this.playing && this.heldAt === undefined) {
+        this.heldAt = performance.now();
+        cancelAnimationFrame(this.raf);
+      }
+    } else if (this.heldAt !== undefined) {
+      this.start += performance.now() - this.heldAt;
+      this.heldAt = undefined;
+      this.raf = requestAnimationFrame(this.tick);
+    } else if (!this.playing && this.visible) this.replay();
+  }
   public replay() {
-    if (!this.loaded) return;
+    if (this.disposed || !this.loaded) return;
     cancelAnimationFrame(this.raf);
     if (this.paused) {
       this.setPaused(true);
@@ -287,11 +312,13 @@ export class ImageReveal {
     this.inkCtx.clearRect(0, 0, this.width, this.height);
     this.paintCtx.clearRect(0, 0, this.width, this.height);
     this.start = performance.now();
-    this.raf = requestAnimationFrame(this.tick);
+    this.heldAt = this.suspended || (this.pauseOffscreen && !this.visible) ? this.start : undefined;
+    if (this.heldAt === undefined) this.raf = requestAnimationFrame(this.tick);
   }
   public setPaused(value: boolean) {
     this.paused = value;
     if (value && this.loaded) {
+      this.heldAt = undefined;
       cancelAnimationFrame(this.raf);
       this.playing = false;
       this.finished = true;
